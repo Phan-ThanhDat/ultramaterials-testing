@@ -18,6 +18,15 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ClearIcon from '@material-ui/icons/Clear';
+import {
+  MenuList,
+  MenuItem,
+  Grow,
+  ClickAwayListener,
+  Popper,
+  Paper,
+} from '@material-ui/core';
 
 import injectReducer from 'utils/injectReducer';
 import makeSelectHeader from './selectors';
@@ -55,9 +64,12 @@ const styles = theme => ({
   },
   sectionDesktop: {
     display: 'none',
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'block',
     },
+  },
+  popper: {
+    zIndex: 1,
   },
 });
 
@@ -65,11 +77,27 @@ const styles = theme => ({
 export class Header extends React.Component {
   state = {
     auth: true,
+    open: false,
   };
+
+  handleToggle = () => {
+    this.setState(state => ({ open: !state.open }));
+  };
+
+  handleClose = event => {
+    if (this.anchorEl.contains(event.target)) {
+      return;
+    }
+
+    this.setState({ open: false });
+  };
+
+  renderLink = to => <Link to={to} />;
 
   render() {
     const { classes } = this.props;
-    const { auth } = this.state;
+    const { auth, open } = this.state;
+
     return (
       <div className={classes.root}>
         <AppBar position="static" className={classes.appBar}>
@@ -83,13 +111,13 @@ export class Header extends React.Component {
             </Link>
             <div className={classes.sectionDesktop}>
               <Button component={Link} to="/partner">
-                Partnering
+                Partner
               </Button>
               <Button component={Link} to="/participate">
                 Participate
               </Button>
               <Button component={Link} to="/volunteer">
-                Volunteering
+                Volunteer
               </Button>
               <Button component={Link} to="/challenges">
                 Challenges
@@ -110,9 +138,80 @@ export class Header extends React.Component {
             ) : (
               <Button className={classes.loginButton}>Login</Button>
             )}
-            <IconButton className={classes.menuButton} aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
+            <div>
+              <IconButton
+                className={classes.menuButton}
+                aria-label="Menu"
+                buttonRef={node => {
+                  this.anchorEl = node;
+                }}
+                aria-owns={open ? 'menu-list-grow' : undefined}
+                aria-haspopup="true"
+                onClick={this.handleToggle}
+              >
+                {open ? <ClearIcon /> : <MenuIcon />}
+              </IconButton>
+              <Popper
+                className={classes.popper}
+                open={open}
+                anchorEl={this.anchorEl}
+                transition
+                disablePortal
+              >
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    id="menu-list-grow"
+                    style={{
+                      transformOrigin:
+                        placement === 'bottom' ? 'center top' : 'center bottom',
+                    }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={this.handleClose}>
+                        <MenuList>
+                          <MenuItem
+                            onClick={this.handleClose}
+                            component={Link}
+                            to="/partner"
+                          >
+                            Partner
+                          </MenuItem>
+                          <MenuItem
+                            onClick={this.handleClose}
+                            component={Link}
+                            to="/participate"
+                          >
+                            Participate
+                          </MenuItem>
+                          <MenuItem
+                            onClick={this.handleClose}
+                            component={Link}
+                            to="/volunteer"
+                          >
+                            Volunteer
+                          </MenuItem>
+                          <MenuItem
+                            onClick={this.handleClose}
+                            component={Link}
+                            to="/challenges"
+                          >
+                            Challenges
+                          </MenuItem>
+                          <MenuItem
+                            onClick={this.handleClose}
+                            component={Link}
+                            to="/about"
+                          >
+                            About
+                          </MenuItem>
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
+            </div>
           </Toolbar>
         </AppBar>
       </div>
