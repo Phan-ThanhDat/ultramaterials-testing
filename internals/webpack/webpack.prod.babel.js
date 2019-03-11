@@ -122,7 +122,7 @@ module.exports = require('./webpack.base.babel')({
 
     new WebpackPwaManifest({
       name: 'Ultrahack',
-      short_name: 'UH',
+      short_name: 'Ultrahack',
       description: 'Ultrahack React Boilerplate-based project!',
       background_color: '#00060c',
       theme_color: '#da0035',
