@@ -1,9 +1,7 @@
 # Welcome to UtraMaterials project
 
 ## We use React Boilerplate for the content
-
-<img src="https://ultrahack.org/images/uh-red.png" alt="react boilerplate banner" align="center" />
-
+<div align="center"><img align="center" src="https://ultrahack.org/images/uh-red.png" alt="react boilerplate banner" align="center" /></div>
 <br />
 
 <div align="center"><strong>Start your next react project in seconds</strong></div>
