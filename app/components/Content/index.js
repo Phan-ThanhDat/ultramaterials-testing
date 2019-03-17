@@ -1,5 +1,6 @@
 import { Switch, Route } from 'react-router-dom';
 
+import EventPage from 'containers/EventPage/Loadable';
 import Header from 'containers/Header/Loadable';
 import HomePage from 'containers/HomePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -14,6 +15,7 @@ import PressMaterialPage from 'containers/PressMaterialPage/Loadable';
 import CookiePolicyPage from 'containers/CookiePolicyPage/Loadable';
 import PrivacyPolicyPage from 'containers/PrivacyPolicyPage/Loadable';
 import TermsOfServicePage from 'containers/TermsOfServicePage/Loadable';
+
 import React from 'react';
 import { withStyles } from '@material-ui/core';
 
@@ -52,6 +54,7 @@ class Content extends React.Component {
             path="/terms-of-service"
             component={TermsOfServicePage}
           />
+          <Route exact path="/event2019" component={EventPage} />
           <Route component={NotFoundPage} />
         </Switch>
       </div>
